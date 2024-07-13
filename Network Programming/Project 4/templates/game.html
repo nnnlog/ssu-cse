@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+<a href="/logout">
+    <button>logout</button>
+</a>
+<pre><code>Rule Information:
+1. Number range: 1 ~ 10
+2. Maximum try per player: 5</code></pre>
+{% if msg %}
+<div style="color: red;">{{ msg }}</div>
+{% endif %}
+<div>Your score: {{ score }}</div>
+<form method="post">
+    <input name="value" type="number" min="1" max="10" placeholder="Input a number such that you guess." style="width: 80%" required>
+    <input name="csrf" type="text" value="{{ csrf }}" hidden="hidden">
+    <input type="submit">
+</form>
+</body>

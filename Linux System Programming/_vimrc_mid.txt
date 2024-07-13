@@ -1,0 +1,9 @@
+20221494 박찬솔
+
+~/.vimrc
+
+set nocp
+set backspace=indent,eol,start
+set autoindent
+set nu
+set whichwrap+=<,>,[,],h,l

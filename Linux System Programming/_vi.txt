@@ -1,0 +1,59 @@
+삽입
+a : 커서 다음
+A : 현재 줄 끝
+i : 현재 커서
+o : 다음 줄 생성
+O : 뒷 줄 생성
+
+이동
+hjkl
+0 $
+G : 파일 끝 gg : 1번 줄
+:<line>
+ge : 뒷 단어로 이동
+w : word 이동
+ctrl v, ctrl f
+
+삭제
+:<line>d
+dd
+d3j 같은거도 됨
+dw 같은거도 됨
+
+모든 줄에 대해 작업
+- visual 또는 <line>
+norm i// 
+norm 3x 같은거 가능
+
+검색
+/<regex>
+
+바꾸기
+%s/<regex>/<replace>/gic
+
+복붙
+yy
+p
+
+들여쓰기
+ctrl d
+ctrl t
+일반에선 <, >
+
+작업
+undo u
+redo ctrl r
+
+visual
+v (select)
+V (line select)
+
+eol 없애기
+:set binary
+:set noeol
+
+그 외
+:w
+:wq
+:q!
+:sav <filenam>

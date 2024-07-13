@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+{% if msg %}
+<div>{{ msg }}</div>
+{% endif %}
+<form method="post">
+    <input name="id" placeholder="username" type="text" required>
+    <input name="pw" placeholder="password" type="password" required>
+    <input type="submit" value="로그인">
+</form>
+</body>
