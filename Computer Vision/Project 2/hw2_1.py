@@ -1,3 +1,7 @@
+from ultralytics.utils.plotting import Annotator
+
+from ultralytics import YOLO
+
 import sys
 
 import cv2
@@ -144,37 +148,43 @@ def detect_empire_state_building(image_path, template_path, template_sz):
     img_rect = imutils.resize(img_rect, height=920)
     original = imutils.resize(original, height=920)
     return original
-    # cv2.destroyAllWindows()
 
+model = YOLO("best.pt")
 
-# for i in range(0, 12):
-#     print(i)
-#     for j in range(0, 12):
-#         if i == j: continue
-#         # detect_empire_state_building(f"etc_img/realistic/{i}.jpg", f"etc_img/realistic_extract/{j}.png")
-#         detect_empire_state_building(f"etc_img/realistic/{i}.jpg", f"etc_img/realistic_hand/{j}.jpg")
-#         # detect_empire_state_building(f"etc_img/realistic/{i}.jpg", f"etc_img/realistic_extract_edit/{j}.png")
-#     print("end")
-#     cv2.waitKey()
-#     cv2.destroyAllWindows()
+im = sys.argv[1]
+# im = f"tests_yes/{i}.jpg"
+results = model.predict(im)
 
-ok = False
-for sz in [920]:
-    # for sz in [920, None]:
-    if ok: break
-    for j in range(0, 6):
-        # if i == j: continue
-        # res = detect_empire_state_building(f"etc_img/test_no/{i}.jpg", f"etc_img/realistic_hand_opt/{j}.jpg", sz)
-        # res = detect_empire_state_building(f"etc_img/realistic/{i}.jpg", f"etc_img/realistic_hand/{j}.jpg", sz)
-        res = detect_empire_state_building(sys.argv[1], f"models/{j}.jpg", sz)
-        # res = detect_empire_state_building(f"etc_img/test_exist/{i}.jpg", f"etc_img/realistic_hand_opt/{j}.jpg", sz)
-        if res is not None:
-            ok = True
-            # cv2.imshow("Matches", res)
-            # cv2.waitKey(1000)
+for r in results:
+    annotator = Annotator(cv2.imread(im))
+
+    cnt = 0
+
+    boxes = r.boxes
+    for box in boxes:
+        if box.conf[0] < 0.85: continue
+        annotator.box_label(box.xyxy[0], color=(0, 0, 255))
+        cnt += 1
+        break
+
+    if cnt == 0:
+        ok = False
+        for sz in [920]:
+            if ok: break
+            for j in range(0, 6):
+                res = detect_empire_state_building(im, f"models/{j}.jpg", sz)
+                if res is not None:
+                    ok = True
+                    img = res
+                    break
+        if not ok:
+            print("False")
             break
-if ok:
+    else:
+        img = annotator.result()
+
     print("True")
-    cv2.waitKey()
-    cv2.destroyAllWindows()
-else: print("False")
+    # img = imutils.resize(img, height=920)
+    # cv2.imshow('res', img)
+    # cv2.waitKey()
+    # cv2.destroyAllWindows()
